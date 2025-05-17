@@ -1,0 +1,6 @@
+PORT=2501
+GENERATE_SOURCEMAP=false
+REACT_APP_ENV=development # producation
+
+# REACT_APP_SERVER_URL=
+# ...
