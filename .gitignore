@@ -6,6 +6,9 @@ node_modules/
 # Testing output
 coverage/
 
+# Production
+/build
+
 # Miscellaneous
 .DS_Store
 
