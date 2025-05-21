@@ -1,7 +1,0 @@
-const ACTION_TYPES = {
-  EXAMPLE_LIST_START: 'example/LIST/START',
-  EXAMPLE_LIST_SUCCESS: 'example/LIST/SUCCESS',
-  EXAMPLE_LIST_FAILED: 'example/LIST/FAILED',
-}
-
-export default ACTION_TYPES

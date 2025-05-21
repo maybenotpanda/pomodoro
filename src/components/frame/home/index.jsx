@@ -1,27 +1,25 @@
 // ** React Imports
 import React, { useEffect, useRef, useState } from 'react'
 
+// ** Utils Imports
+import { formatTime } from 'config/utils/date-time'
+
+// ** Elements Imports
+import Tabs from 'components/elements/tabs'
+import Button from 'components/elements/button'
+
 // ** Assets Imports
-import click from 'assets/click.mp3'
 import endSound from 'assets/pomodoro.mp3'
 
 const HomeFrame = () => {
 	const [isRunning, setIsRunning] = useState(false)
-	const [timeLeft, setTimeLeft] = useState(45 * 60)
-	const [activeTab, setActiveTab] = useState('Pomodoro')
+	const [timeLeft, setTimeLeft] = useState(1 * 60)
 
-	const clickSoundRef = useRef(null)
 	const endSoundRef = useRef(null)
 	const intervalRef = useRef(null)
 	const endTimeRef = useRef(null)
 
 	const tabs = ['Pomodoro', 'Short Break', 'Long Break']
-
-	const formatTime = (seconds) => {
-		const m = Math.floor(seconds / 60)
-		const s = seconds % 60
-		return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
-	}
 
 	useEffect(() => {
 		if (isRunning) {
@@ -50,50 +48,38 @@ const HomeFrame = () => {
 		return () => clearInterval(intervalRef.current)
 	}, [isRunning, timeLeft])
 
+	const handleTabChange = (tab) => {
+		setIsRunning(false) // stop timer saat pindah tab
+		clearInterval(intervalRef.current)
+
+		if (endSoundRef.current) {
+			endSoundRef.current.pause()
+			endSoundRef.current.currentTime = 0
+		}
+
+		if (tab === 'Pomodoro') setTimeLeft(1 * 60)
+		else if (tab === 'Short Break') setTimeLeft(2 * 60)
+		else if (tab === 'Long Break') setTimeLeft(3 * 60)
+	}
+
+	const handleClick = () => {
+		if (endSoundRef.current) {
+			endSoundRef.current.pause()
+			endSoundRef.current.currentTime = 0
+		}
+
+		setIsRunning((prev) => !prev)
+	}
+
 	return (
 		<div className="h-screen w-screen grid justify-items-center content-center gap-6 py-6 bg-primary">
 			<h2 className="text-white text-center">Make your time</h2>
 			<div className="py-4 px-8 bg-slate-600/10 rounded-md backdrop-blur-md grid justify-items-center content-center gap-6">
-				<div className="flex gap-2">
-					{tabs.map((tab) => (
-						<p
-							key={tab}
-							onClick={() => setActiveTab(tab)}
-							className={`p-2 rounded-md cursor-pointer transition-all duration-200
-								${
-									activeTab === tab
-										? 'bg-slate-600/20 backdrop-blur-lg text-white font-medium'
-										: 'hover:bg-slate-600/20 hover:backdrop-blur-lg hover:text-white hover:font-medium'
-								}
-          `}>
-							{tab}
-						</p>
-					))}
-				</div>
+				<Tabs menu={tabs} onChange={handleTabChange} />
 				<div className="text-8xl font-medium text-white">{formatTime(timeLeft)}</div>
-				<button
-					onClick={() => {
-						if (endSoundRef.current) {
-							endSoundRef.current.pause()
-							endSoundRef.current.currentTime = 0
-						}
-
-						if (clickSoundRef.current) {
-							clickSoundRef.current.currentTime = 0
-							clickSoundRef.current.play()
-						}
-						setIsRunning((prev) => !prev)
-					}}
-					className={`bg-white w-40 relative py-2 rounded-md transition-all duration-150 ease-in-out
-						${
-							isRunning
-								? 'shadow-none active:translate-y-[6px]'
-								: 'shadow-[rgb(235,235,235)_0px_6px_0px] active:shadow-none active:translate-y-[6px] hover:translate-y-[6px] hover:shadow-none'
-						}
-          `}>
-					<h5 className="text-primary">{isRunning ? 'Pause' : 'Start'}</h5>
-				</button>
-				<audio ref={clickSoundRef} src={click} preload="auto" />
+				<Button onClick={handleClick} shadow={isRunning}>
+					{isRunning ? 'Pause' : 'Start'}
+				</Button>
 				<audio ref={endSoundRef} src={endSound} preload="auto" />
 			</div>
 		</div>
