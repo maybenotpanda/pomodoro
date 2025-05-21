@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 // ** Utils Imports
 import { Each } from 'config/utils/each'
 
-const Tabs = ({ menu }) => {
+const Tabs = ({ menu, onChange }) => {
 	// ! hooks
 	// * state
 	const [activeTab, setActiveTab] = useState(menu[0])
@@ -16,7 +16,10 @@ const Tabs = ({ menu }) => {
 				render={(tab) => (
 					<p
 						key={tab}
-						onClick={() => setActiveTab(tab)}
+						onClick={() => {
+							setActiveTab(tab)
+							if (onChange) onChange(tab)
+						}}
 						className={`p-2 rounded-md cursor-pointer transition-all duration-200
 							${
 								activeTab === tab
