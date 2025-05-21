@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 // ** Assets Imports
-import click from 'assets/click.mp3'
 import endSound from 'assets/pomodoro.mp3'
 
 const HomeFrame = () => {
@@ -71,29 +70,9 @@ const HomeFrame = () => {
 					))}
 				</div>
 				<div className="text-8xl font-medium text-white">{formatTime(timeLeft)}</div>
-				<button
-					onClick={() => {
-						if (endSoundRef.current) {
-							endSoundRef.current.pause()
-							endSoundRef.current.currentTime = 0
-						}
-
-						if (clickSoundRef.current) {
-							clickSoundRef.current.currentTime = 0
-							clickSoundRef.current.play()
-						}
-						setIsRunning((prev) => !prev)
-					}}
-					className={`bg-white w-40 relative py-2 rounded-md transition-all duration-150 ease-in-out
-						${
-							isRunning
-								? 'shadow-none active:translate-y-[6px]'
-								: 'shadow-[rgb(235,235,235)_0px_6px_0px] active:shadow-none active:translate-y-[6px] hover:translate-y-[6px] hover:shadow-none'
-						}
-          `}>
-					<h5 className="text-primary">{isRunning ? 'Pause' : 'Start'}</h5>
-				</button>
-				<audio ref={clickSoundRef} src={click} preload="auto" />
+				<Button onClick={handleClick} shadow={isRunning}>
+					{isRunning ? 'Pause' : 'Start'}
+				</Button>
 				<audio ref={endSoundRef} src={endSound} preload="auto" />
 			</div>
 		</div>
