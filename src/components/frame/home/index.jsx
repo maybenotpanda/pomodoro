@@ -1,26 +1,25 @@
 // ** React Imports
 import React, { useEffect, useRef, useState } from 'react'
 
+// ** Utils Imports
+import { formatTime } from 'config/utils/date-time'
+
+// ** Elements Imports
+import Tabs from 'components/elements/tabs'
+import Button from 'components/elements/button'
+
 // ** Assets Imports
 import endSound from 'assets/pomodoro.mp3'
 
 const HomeFrame = () => {
 	const [isRunning, setIsRunning] = useState(false)
-	const [timeLeft, setTimeLeft] = useState(45 * 60)
-	const [activeTab, setActiveTab] = useState('Pomodoro')
+	const [timeLeft, setTimeLeft] = useState(1 * 60)
 
-	const clickSoundRef = useRef(null)
 	const endSoundRef = useRef(null)
 	const intervalRef = useRef(null)
 	const endTimeRef = useRef(null)
 
 	const tabs = ['Pomodoro', 'Short Break', 'Long Break']
-
-	const formatTime = (seconds) => {
-		const m = Math.floor(seconds / 60)
-		const s = seconds % 60
-		return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
-	}
 
 	useEffect(() => {
 		if (isRunning) {
@@ -49,26 +48,34 @@ const HomeFrame = () => {
 		return () => clearInterval(intervalRef.current)
 	}, [isRunning, timeLeft])
 
+	const handleTabChange = (tab) => {
+		setIsRunning(false) // stop timer saat pindah tab
+		clearInterval(intervalRef.current)
+
+		if (endSoundRef.current) {
+			endSoundRef.current.pause()
+			endSoundRef.current.currentTime = 0
+		}
+
+		if (tab === 'Pomodoro') setTimeLeft(1 * 60)
+		else if (tab === 'Short Break') setTimeLeft(2 * 60)
+		else if (tab === 'Long Break') setTimeLeft(3 * 60)
+	}
+
+	const handleClick = () => {
+		if (endSoundRef.current) {
+			endSoundRef.current.pause()
+			endSoundRef.current.currentTime = 0
+		}
+
+		setIsRunning((prev) => !prev)
+	}
+
 	return (
 		<div className="h-screen w-screen grid justify-items-center content-center gap-6 py-6 bg-primary">
 			<h2 className="text-white text-center">Make your time</h2>
 			<div className="py-4 px-8 bg-slate-600/10 rounded-md backdrop-blur-md grid justify-items-center content-center gap-6">
-				<div className="flex gap-2">
-					{tabs.map((tab) => (
-						<p
-							key={tab}
-							onClick={() => setActiveTab(tab)}
-							className={`p-2 rounded-md cursor-pointer transition-all duration-200
-								${
-									activeTab === tab
-										? 'bg-slate-600/20 backdrop-blur-lg text-white font-medium'
-										: 'hover:bg-slate-600/20 hover:backdrop-blur-lg hover:text-white hover:font-medium'
-								}
-          `}>
-							{tab}
-						</p>
-					))}
-				</div>
+				<Tabs menu={tabs} onChange={handleTabChange} />
 				<div className="text-8xl font-medium text-white">{formatTime(timeLeft)}</div>
 				<Button onClick={handleClick} shadow={isRunning}>
 					{isRunning ? 'Pause' : 'Start'}
