@@ -9,7 +9,7 @@ import Tabs from 'components/elements/tabs'
 import Button from 'components/elements/button'
 
 // ** Assets Imports
-import endSound from 'assets/pomodoro.mp3'
+import Sound from 'assets/pomodoro.mp3'
 
 const HomeFrame = () => {
 	// ! hooks
@@ -110,7 +110,7 @@ const HomeFrame = () => {
 				<Button onClick={handleClick} shadow={isRunning}>
 					{isRunning ? 'Pause' : 'Start'}
 				</Button>
-				<audio ref={endSoundRef} src={endSound} preload="auto" />
+				<audio ref={endSoundRef} src={Sound} preload="auto" />
 			</div>
 		</div>
 	)
