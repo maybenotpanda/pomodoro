@@ -13,6 +13,7 @@ import endSound from 'assets/pomodoro.mp3'
 
 const HomeFrame = () => {
 	const [isRunning, setIsRunning] = useState(false)
+	const [activeTab, setActiveTab] = useState('Pomodoro')
 	const [timeLeft, setTimeLeft] = useState(1 * 60)
 
 	const endSoundRef = useRef(null)
