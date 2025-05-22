@@ -22,6 +22,19 @@ const HomeFrame = () => {
 
 	const tabs = ['Pomodoro', 'Short Break', 'Long Break']
 
+	const getDuration = (tab) => {
+		switch (tab) {
+			case 'Pomodoro':
+				return 1 * 60
+			case 'Short Break':
+				return 2 * 60
+			case 'Long Break':
+				return 3 * 60
+			default:
+				return 0
+		}
+	}
+
 	useEffect(() => {
 		if (isRunning) {
 			endTimeRef.current = Date.now() + timeLeft * 1000
