@@ -96,7 +96,7 @@ const HomeFrame = () => {
 		<div className="h-screen w-screen grid justify-items-center content-center gap-6 py-6 bg-primary">
 			<h2 className="text-white text-center">Make your time</h2>
 			<div className="py-4 px-8 bg-slate-600/10 rounded-md backdrop-blur-md grid justify-items-center content-center gap-6">
-				<Tabs menu={tabs} onChange={handleTabChange} />
+				<Tabs menu={tabs} activeTab={activeTab} onChange={handleTabChange} />
 				<div className="text-8xl font-medium text-white">{formatTime(timeLeft)}</div>
 				<Button onClick={handleClick} shadow={isRunning}>
 					{isRunning ? 'Pause' : 'Start'}
