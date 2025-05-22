@@ -70,7 +70,7 @@ const HomeFrame = () => {
 	}, [isRunning, timeLeft, activeTab])
 
 	const handleTabChange = (tab) => {
-		setIsRunning(false) // stop timer saat pindah tab
+		setIsRunning(false)
 		clearInterval(intervalRef.current)
 
 		if (endSoundRef.current) {
@@ -78,9 +78,8 @@ const HomeFrame = () => {
 			endSoundRef.current.currentTime = 0
 		}
 
-		if (tab === 'Pomodoro') setTimeLeft(1 * 60)
-		else if (tab === 'Short Break') setTimeLeft(2 * 60)
-		else if (tab === 'Long Break') setTimeLeft(3 * 60)
+		setActiveTab(tab)
+		setTimeLeft(getDuration(tab))
 	}
 
 	const handleClick = () => {
