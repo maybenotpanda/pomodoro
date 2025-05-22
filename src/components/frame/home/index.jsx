@@ -16,7 +16,7 @@ const HomeFrame = () => {
 	// * state
 	const [isRunning, setIsRunning] = useState(false)
 	const [activeTab, setActiveTab] = useState('Pomodoro')
-	const [timeLeft, setTimeLeft] = useState(1 * 60)
+	const [timeLeft, setTimeLeft] = useState(45 * 60)
 
 	// * ref
 	const endSoundRef = useRef(null)
@@ -91,11 +91,11 @@ const HomeFrame = () => {
 	const getDuration = (tab) => {
 		switch (tab) {
 			case 'Pomodoro':
-				return 1 * 60
+				return 45 * 60
 			case 'Short Break':
-				return 2 * 60
+				return 5 * 60
 			case 'Long Break':
-				return 3 * 60
+				return 15 * 60
 			default:
 				return 0
 		}
