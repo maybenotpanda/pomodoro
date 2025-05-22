@@ -1,14 +1,10 @@
 // ** React Imports
-import React, { useState } from 'react'
+import React from 'react'
 
 // ** Utils Imports
 import { Each } from 'config/utils/each'
 
-const Tabs = ({ menu, onChange }) => {
-	// ! hooks
-	// * state
-	const [activeTab, setActiveTab] = useState(menu[0])
-
+const Tabs = ({ menu, onChange, activeTab }) => {
 	return (
 		<div className="flex gap-2">
 			<Each
@@ -16,10 +12,7 @@ const Tabs = ({ menu, onChange }) => {
 				render={(tab) => (
 					<p
 						key={tab}
-						onClick={() => {
-							setActiveTab(tab)
-							if (onChange) onChange(tab)
-						}}
+						onClick={() => onChange && onChange(tab)}
 						className={`p-2 rounded-md cursor-pointer transition-all duration-200
 							${
 								activeTab === tab
