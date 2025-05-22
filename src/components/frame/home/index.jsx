@@ -12,29 +12,18 @@ import Button from 'components/elements/button'
 import endSound from 'assets/pomodoro.mp3'
 
 const HomeFrame = () => {
+	// ! hooks
+	// * state
 	const [isRunning, setIsRunning] = useState(false)
 	const [activeTab, setActiveTab] = useState('Pomodoro')
 	const [timeLeft, setTimeLeft] = useState(1 * 60)
 
+	// * ref
 	const endSoundRef = useRef(null)
 	const intervalRef = useRef(null)
 	const endTimeRef = useRef(null)
 
-	const tabs = ['Pomodoro', 'Short Break', 'Long Break']
-
-	const getDuration = (tab) => {
-		switch (tab) {
-			case 'Pomodoro':
-				return 1 * 60
-			case 'Short Break':
-				return 2 * 60
-			case 'Long Break':
-				return 3 * 60
-			default:
-				return 0
-		}
-	}
-
+	// * effect
 	useEffect(() => {
 		if (isRunning) {
 			document.title = `⏳ ${formatTime(timeLeft)} - ${activeTab === 'Pomodoro' ? 'Time to focus!' : activeTab}`
@@ -73,6 +62,7 @@ const HomeFrame = () => {
 		}
 	}, [isRunning, timeLeft, activeTab])
 
+	// ! handle
 	const handleTabChange = (tab) => {
 		setIsRunning(false)
 		clearInterval(intervalRef.current)
@@ -93,6 +83,22 @@ const HomeFrame = () => {
 		}
 
 		setIsRunning((prev) => !prev)
+	}
+
+	// ! others
+	const tabs = ['Pomodoro', 'Short Break', 'Long Break']
+
+	const getDuration = (tab) => {
+		switch (tab) {
+			case 'Pomodoro':
+				return 1 * 60
+			case 'Short Break':
+				return 2 * 60
+			case 'Long Break':
+				return 3 * 60
+			default:
+				return 0
+		}
 	}
 
 	return (
