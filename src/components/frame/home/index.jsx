@@ -37,6 +37,7 @@ const HomeFrame = () => {
 
 	useEffect(() => {
 		if (isRunning) {
+			document.title = `⏳ ${formatTime(timeLeft)} - ${activeTab === 'Pomodoro' ? 'Time to focus!' : activeTab}`
 			endTimeRef.current = Date.now() + timeLeft * 1000
 
 			intervalRef.current = setInterval(() => {
@@ -66,7 +67,10 @@ const HomeFrame = () => {
 			clearInterval(intervalRef.current)
 		}
 
-		return () => clearInterval(intervalRef.current)
+		return () => {
+			clearInterval(intervalRef.current)
+			document.title = 'Panda'
+		}
 	}, [isRunning, timeLeft, activeTab])
 
 	const handleTabChange = (tab) => {
