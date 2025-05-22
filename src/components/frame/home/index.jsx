@@ -9,7 +9,7 @@ import Tabs from 'components/elements/tabs'
 import Button from 'components/elements/button'
 
 // ** Assets Imports
-import Sound from 'assets/pomodoro.mp3'
+import Sound from 'assets/sound.mp3'
 
 const HomeFrame = () => {
 	// ! hooks
